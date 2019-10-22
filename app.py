@@ -9,7 +9,7 @@ import weather as w
 from dash.dependencies import Input, Output
 
 #external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
+tester = w.fore_cast()
 app = dash.Dash(
     __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
 )
@@ -50,11 +50,12 @@ app.layout = html.Div(
                             n_intervals=0
                         ),
                         dcc.Graph(
+                        
                         className="second column",
                         figure={
+                            
                             'data': [
-                                {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF'},
-                                {'x': [1, 2, 3], 'y': [2, 4, 5], 'type': 'bar', 'name': u'Montréal'},
+                                {'x': [1,2,3,4,5,6], 'y': tester[0:6,1], 'type': 'bar', 'name': 'SF'}
                             ],
                             'layout': {
                                 'plot_bgcolor': colors['background'],
