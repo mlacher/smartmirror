@@ -1,7 +1,7 @@
 import pyowm
 import pandas as pd
 import numpy as np
-import datetime as datetime
+from datetime import datetime
 import plotly.express as px
 
 
@@ -13,22 +13,19 @@ def fore_cast():
     fc = owm.three_hours_forecast('Fürstenfeldbruck,GER')
     f = fc.get_forecast()
     for weather in f:
+        #code is not nice need update soon
         #print (weather.get_reference_time('iso'),weather.get_temperature('celsius'))
         #test.append({'Time':weather.get_reference_time('iso'),'Temp':weather.get_temperature('celsius')})
         date_time = weather.get_reference_time()
-        date = date_time.utcfromtimestamp(date_time).srtftime('%Y-%m-%d')
-        time = date_time.utcfromtimestamp(date_time).srtftime('%H:%M')
+        date = datetime.utcfromtimestamp(date_time).strftime('%Y-%m-%d')
+        time = datetime.utcfromtimestamp(date_time).strftime('%H:%M')
         alltemp = weather.get_temperature('celsius')
         temp.append([date,time, alltemp['temp'],'temp'])
         temp.append([date,time, alltemp['temp_max'],'temp_max'])
         temp.append([date,time, alltemp['temp_min'],'temp_min'])
         labels = ['date','time','temp','cat']
         data = pd.DataFrame(temp, columns = labels)
-#data= np.array(data1).T.tolist()]
-
-
-        
-    
+        data = data.groupby('date').max().values
     return data
 #observation = owm.weather_at_place('Fürstenfeldbruck,GER')
 #w = observation.get_weather()
@@ -38,11 +35,7 @@ def fore_cast():
 #w.get_wind()                  # {'speed': 4.6, 'deg': 330}
 #w.get_humidity()              # 87
 #print(w.get_temperature('celsius'))  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
-data1 = fore_cast()
 
-#data = pd.DataFrame(data).set_index("n","b","q","s")
-print(data1)
+#fig = px.line(data1 ,  x='date', y=('temp'))
 
-fig = px.line(data1 ,  x='date', y=('temp'))
-
-fig.show()
+#fig.show()
