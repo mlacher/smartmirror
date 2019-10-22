@@ -11,7 +11,7 @@ from dash.dependencies import Input, Output
 #external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 tester = w.fore_cast()
 app = dash.Dash(
-    __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
+    __name__, external_stylesheets=[dbc.themes.BOOTSTRAP]
 )
 server = app.server
 colors = {
@@ -24,9 +24,6 @@ app.layout = html.Div([
    # className = "3 columns",
     dbc.Row([
         dbc.Col(
-            html.Div(id='date')
-        ),
-        dbc.Col(
             html.Div(
                 daq.LEDDisplay(
                     id="operator-led",
@@ -35,35 +32,46 @@ app.layout = html.Div([
                     backgroundColor="#1e2130",
                     size=50
                 ),
-            ),
-            
-        width = 10),
+            ),        
+            width = {"size": 6, "offset": 5},
+        ),
     ]),
+    dbc.Row([
+        dbc.Col(
+            html.Div(id='date'),
+            width={"size": 6, "offset": 5},
+        ),
+    ]),
+        
+
     dcc.Interval(
                 id='interval-component',
                 interval=1*1000, # in milliseconds
                 n_intervals=0
             ),
-    dbc.Row(
+    dbc.Row([
         dbc.Col(
             dcc.Graph(
             #className="graphs-container",
-            
             figure={
                 
                 'data': [
-                    {'x': tester[2][0:6].index, 'y': tester[2][0:6].values, 'type': 'bar', 'name': 'SF'}
+                    {'x': tester[2][0:6].index, 'y': tester[2][0:6].values, 'type': 'bar', 'name': 'Temp_max'}
                 ],
                 'layout': {
                     'plot_bgcolor': colors['background'],
                     'paper_bgcolor': colors['background'],
+                    'coloraxis':{
+                        'colorbar': -90,
+                    },
                     'font': {
-                        'color': colors['text']
+                        'color': colors['text'],
+                        'size': 10,
                         }
                     }
             }),
-        width = 10),           
-    ),
+        width = 4),          
+    ]),
 ])
     
 
