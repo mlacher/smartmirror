@@ -15,7 +15,7 @@ def fore_cast():
     for weather in f:
         #print (weather.get_reference_time('iso'),weather.get_temperature('celsius'))
         #test.append({'Time':weather.get_reference_time('iso'),'Temp':weather.get_temperature('celsius')})
-        date = weather.get_reference_time()
+        date_time = weather.get_reference_time()
         new = weather.get_temperature('celsius')
         temp.append([date, new['temp'], new['temp_max'],new['temp_min']])
         
