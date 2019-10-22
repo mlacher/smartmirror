@@ -24,18 +24,26 @@ def fore_cast():
         temp.append([date,time, alltemp['temp_max'],'temp_max'])
         temp.append([date,time, alltemp['temp_min'],'temp_min'])
         labels = ['date','time','temp','cat']
-        data = pd.DataFrame(temp, columns = labels)
-        data = data.groupby('date').max().values
-    return data
-#observation = owm.weather_at_place('Fürstenfeldbruck,GER')
-#w = observation.get_weather()
+        data_raw = pd.DataFrame(temp, columns = labels)
+        data = data_raw.groupby('date').max()
+        test = [data.index, data.time,data.temp]
+    return test
+#
+#
+
+def current_weather():
+    observation = owm.weather_at_place('Fürstenfeldbruck,GER')
+    w = observation.get_weather()
+    w.get_wind()                  # {'speed': 4.6, 'deg': 330}
+    w.get_humidity()              # 87
+    w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
 
 
-# Weather details
-#w.get_wind()                  # {'speed': 4.6, 'deg': 330}
-#w.get_humidity()              # 87
-#print(w.get_temperature('celsius'))  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
 
+#files= fore_cast()
+
+
+#print(test[2][0:6].index)
 #fig = px.line(data1 ,  x='date', y=('temp'))
 
 #fig.show()
