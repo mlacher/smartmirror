@@ -30,7 +30,8 @@ def current_weather():
     observation = owm.weather_at_place('Fürstenfeldbruck,GER')
     w = observation.get_weather()
     curr_wind=w.get_wind()                  # {'speed': 4.6, 'deg': 330}
-    #curr_hum= w.get_humidity()              # 87
+    curr_hum= w.get_humidity()              # 87
     curr_temp= w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
-    curr_w = [curr_temp, curr_wind]
-    #print(curr_w[0]['temp']) example for current temperature
+    curr_w = [curr_temp, curr_wind, curr_hum]
+    #print(curr_w[2]) #example for humidity
+    #print(curr_w[0]['temp']) #example for temperature
