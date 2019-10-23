@@ -14,7 +14,7 @@ def fore_cast():
     for weather in f:
         #code is not nice requires update soon
         date_time = weather.get_reference_time()
-        date = datetime.utcfromtimestamp(date_time).strftime('%Y-%m-%d')
+        date = datetime.utcfromtimestamp(date_time).strftime('%m-%d')
         time = datetime.utcfromtimestamp(date_time).strftime('%H:%M')
         alltemp = weather.get_temperature('celsius')
         temp.append([date,time, alltemp['temp'],'temp'])
@@ -33,5 +33,6 @@ def current_weather():
     curr_hum= w.get_humidity()              # 87
     curr_temp= w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
     curr_w = [curr_temp, curr_wind, curr_hum]
+    return  curr_w
     #print(curr_w[2]) #example for humidity
     #print(curr_w[0]['temp']) #example for temperature

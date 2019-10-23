@@ -42,6 +42,26 @@ app.layout = html.Div([
             width={"size": 6, "offset": 5},
         ),
     ]),
+    dbc.Row([
+        dbc.Col(
+            daq.Thermometer(
+            id='thermometer',
+            value=98.6,
+            min=95,
+            max=105
+            ) , 
+        width={'size':1, "offset":1},
+        ),
+        dbc.Col(
+            daq.Thermometer(
+            id='thermometer2',
+            value=98.6,
+            min=95,
+            max=105
+            ) , 
+        width={'size':1},
+        ),
+    ]),
         
 
     dcc.Interval(
