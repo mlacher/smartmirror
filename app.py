@@ -6,10 +6,16 @@ import datetime as dt
 import dash_daq as daq
 import weather as w
 import dash_bootstrap_components as dbc
+import news as ns
 from dash.dependencies import Input, Output
 
-#external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-tester = w.fore_cast()
+#get temp values
+temp_fc = w.fore_cast()
+temp_c = w.current_weather()
+#get news
+news = ns.spiegel_news()
+
+
 app = dash.Dash(
     __name__, external_stylesheets=[dbc.themes.BOOTSTRAP]
 )
@@ -21,7 +27,7 @@ colors = {
 
 
 app.layout = html.Div([
-   # className = "3 columns",
+    #1st ROW
     dbc.Row([
         dbc.Col(
             html.Div(
@@ -36,19 +42,22 @@ app.layout = html.Div([
             width = {"size": 6, "offset": 5},
         ),
     ]),
+    #2nd ROW
     dbc.Row([
         dbc.Col(
             html.Div(id='date'),
             width={"size": 6, "offset": 5},
         ),
     ]),
+    #3rd ROW
     dbc.Row([
         dbc.Col(
             daq.Thermometer(
             id='thermometer',
-            value=98.6,
-            min=95,
-            max=105
+            value=(temp_c[0]['temp']) ,
+            min=0,
+            max=40,
+            color='#491d1d'
             ) , 
         width={'size':1, "offset":1},
         ),
@@ -61,14 +70,22 @@ app.layout = html.Div([
             ) , 
         width={'size':1},
         ),
+        dbc.Col(
+            dcc.Textarea(
+                placeholder='Enter a value...',
+                value=news[1]['title'],
+                style={'width': '100%',
+                        'color': '#7FDBFF'}
+            ) , 
+        width={'size':4, 'offset':4},
+        ),
     ]),
-        
-
     dcc.Interval(
                 id='interval-component',
                 interval=1*1000, # in milliseconds
                 n_intervals=0
             ),
+    #4th ROW
     dbc.Row([
         dbc.Col(
             dcc.Graph(
@@ -76,7 +93,7 @@ app.layout = html.Div([
             figure={
                 
                 'data': [
-                    {'x': tester[2][0:6].index, 'y': tester[2][0:6].values, 'type': 'bar', 'name': 'Temp_max'}
+                    {'x': temp_fc[2][0:6].index, 'y': temp_fc[2][0:6].values, 'type': 'bar', 'name': 'Temp_max'}
                 ],
                 'layout': {
                     'plot_bgcolor': colors['background'],
