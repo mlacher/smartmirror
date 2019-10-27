@@ -14,7 +14,7 @@ def fore_cast():
     for weather in f:
         #code is not nice requires update soon
         date_time = weather.get_reference_time()
-        date = datetime.utcfromtimestamp(date_time).strftime('%m-%d')
+        date = datetime.utcfromtimestamp(date_time).strftime('%Y-%m-%d')
         time = datetime.utcfromtimestamp(date_time).strftime('%H:%M')
         alltemp = weather.get_temperature('celsius')
         temp.append([date,time, alltemp['temp'],'temp'])

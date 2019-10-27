@@ -73,9 +73,10 @@ app.layout = html.Div([
         dbc.Col(
             dcc.Textarea(
                 placeholder='Enter a value...',
-                value=news[1]['title'],
+                value=news[0]['title']+'\n'+ news[1]['title'] ,
                 style={'width': '100%',
-                        'color': '#7FDBFF'}
+                        'color': '#7FDBFF',
+                         'backgroundColor':'black'}
             ) , 
         width={'size':4, 'offset':4},
         ),
@@ -111,7 +112,6 @@ app.layout = html.Div([
     ]),
 ])
     
-
 
 
 
