@@ -3,6 +3,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import datetime as dt
+import dash_table
 import dash_daq as daq
 import weather as w
 import dash_bootstrap_components as dbc
@@ -71,9 +72,10 @@ app.layout = html.Div([
         width={'size':1},
         ),
         dbc.Col(
-            dcc.Textarea(
+            dbc.Textarea(
                 placeholder='Enter a value...',
-                value=news[0]['title']+'\n'+ news[1]['title'] ,
+                bs_size="lg",
+                value=news[0]['title']+'\n'+ news[1]['title'] + '\n'+ news[2]['title'],
                 style={'width': '100%',
                         'color': '#7FDBFF',
                          'backgroundColor':'black'}
@@ -108,7 +110,7 @@ app.layout = html.Div([
                         }
                     }
             }),
-        width = 4),          
+        width = 4),     
     ]),
 ])
     
