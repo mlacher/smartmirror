@@ -26,6 +26,7 @@ def fore_cast():
         data_forecast = [pd_data_group.index, pd_data_group.time,pd_data_group.temp]
     return data_forecast
 #
+
 def current_weather():
     observation = owm.weather_at_place('Fürstenfeldbruck,GER')
     w = observation.get_weather()

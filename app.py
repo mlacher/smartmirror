@@ -8,6 +8,7 @@ import dash_daq as daq
 import weather as w
 import dash_bootstrap_components as dbc
 import news as ns
+import nfl
 from dash.dependencies import Input, Output
 
 #get temp values
@@ -15,7 +16,8 @@ temp_fc = w.fore_cast()
 temp_c = w.current_weather()
 #get news
 news = ns.spiegel_news()
-
+#get nfl
+nfl_s = nfl.nfl_stats()
 
 app = dash.Dash(
     __name__, external_stylesheets=[dbc.themes.BOOTSTRAP]
@@ -72,14 +74,14 @@ app.layout = html.Div([
         width={'size':1},
         ),
         dbc.Col(
-            dbc.Textarea(
-                placeholder='Enter a value...',
-                bs_size="lg",
-                value=news[0]['title']+'\n'+ news[1]['title'] + '\n'+ news[2]['title'],
+            dbc.Toast(
+                [html.P(str(news[0]['title']+ news[1]['title'] + '\n'+ news[2]['title']), className="mb-0")],
+                header="Spiegel News",
                 style={'width': '100%',
                         'color': '#7FDBFF',
-                         'backgroundColor':'black'}
-            ) , 
+                         'backgroundColor':'white',
+                         'font-size':'14px'}
+            ),
         width={'size':4, 'offset':4},
         ),
     ]),
@@ -89,6 +91,7 @@ app.layout = html.Div([
                 n_intervals=0
             ),
     #4th ROW
+    
     dbc.Row([
         dbc.Col(
             dcc.Graph(
@@ -110,7 +113,18 @@ app.layout = html.Div([
                         }
                     }
             }),
-        width = 4),     
+        width = 4),
+        dbc.Col(
+            dash_table.DataTable(
+            id='table',
+            columns=[{"name": i, "id": i} for i in nfl_s],
+            data=nfl_s.to_dict('records'),
+            style_table= {'width':1,
+                          'height':10},
+            style_cell= {'width':1,
+                          'height':10}),
+        width={'size':4, 'offset':3},
+        )     
     ]),
 ])
     
