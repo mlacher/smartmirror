@@ -9,14 +9,9 @@ def nfl_stats():
     for team in teams:
         d.append({'Rank': team.rank, 'Team': team.name, 'W': team.wins, 'L': team.losses})
         
-        # Prints the team's average margin of victory
+    #DataFrame will be splitted in upper and lower half for visability  
     df = pd.DataFrame(d)
     dfs = np.split(df, [16], axis=0)
-    on = dfs[0]
-    tw = dfs[1]
-    #tw = tw.reset_index()
-    dfs_s = pd.concat([on, tw])
-    print(on)
-    print(tw)
-    return(dfs_s)
+    return(dfs)
 
+nfl_stats()
