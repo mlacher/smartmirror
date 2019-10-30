@@ -4,7 +4,7 @@ import numpy as np
 from datetime import datetime
 import plotly.express as px
 import sys
-import plotly.express as px
+
 
 
 owm = pyowm.OWM('9f6afd479b6ab3d98a1ce2ed91815b0a')  # You MUST provide a valid API key
@@ -13,7 +13,7 @@ temp = []
 def fore_cast():
     fc = owm.three_hours_forecast('Fürstenfeldbruck,GER')
     f = fc.get_forecast()
-    labels = ['datetime','temp','cat']
+    labels = ['date','time','datetime','temp','cat']
     for weather in f:
         #code is not nice requires update soon
         date_time = weather.get_reference_time()
@@ -22,9 +22,9 @@ def fore_cast():
         alltemp = weather.get_temperature('celsius')
         dateTime = date + ' '+ time
         #print(dateTime)
-        temp.append([dateTime, alltemp['temp'],'temp'])
-        temp.append([dateTime, alltemp['temp_max'],'temp_max'])
-        temp.append([dateTime, alltemp['temp_min'],'temp_min'])
+        temp.append([date,time,dateTime, alltemp['temp'],'temp'])
+        temp.append([date,time,dateTime, alltemp['temp_max'],'temp_max'])
+        temp.append([date,time,dateTime, alltemp['temp_min'],'temp_min'])
         
         #pd_data_group = pd_data_raw.groupby('date').max()
         #data_forecast = [pd_data_group.index, pd_data_group.time,pd_data_group.temp]
@@ -43,6 +43,17 @@ def current_weather():
  
 
 #to delete
-tips = fore_cast()
-fig = px.bar(tips[tips['cat']=='temp_max'], x="datetime", y="temp", color = "cat")
-fig.show()
+#tips = fore_cast()
+#fig = px.area(tips[tips['cat']=='temp'], x="datetime", y="temp")
+#fig.update_layout(
+#    title = '5 Day Weather',
+#    xaxis_tickformat = '%d %B (%a)<br>%Y %H:%M',
+#    template= "plotly_dark"
+#)
+#fig.update_xaxes(
+#    showgrid = True,
+#    nticks = 5
+#
+#)
+
+#fig.show()
