@@ -94,25 +94,38 @@ app.layout = html.Div([
     
     dbc.Row([
         dbc.Col(
-            dcc.Graph(
-            #className="graphs-container",
-            figure={
-                
-                'data': [
-                    {'x': temp_fc[2][0:6].index, 'y': temp_fc[2][0:6].values, 'type': 'bar', 'name': 'Temp_max'}
-                ],
-                'layout': {
-                    'plot_bgcolor': colors['background'],
-                    'paper_bgcolor': colors['background'],
-                    'coloraxis':{
-                        'colorbar': -90,
-                    },
-                    'font': {
-                        'color': colors['text'],
-                        'size': 10,
+             dcc.Graph(
+                figure={
+                    'data': [{
+                        'x': temp_fc['datetime'],
+                        'y': temp_fc['temp'],
+                        'type': 'scatter',
+                        'fill': 'tonexty'
+                    }],
+                    'layout': {
+                        'plot_bgcolor':"black",
+                        'paper_bgcolor':"black",
+                        'xaxis': {
+                            'nticks': 14,
+                            'tickformat': '%H:%M\n %d %B (%a)',
+                            'gridcolor': 'darkgrey',
+                            'gridwidth': 0.1,
+                            'showticklabes': False,
+                            'tickfont' :{
+                                'color': 'grey'
+                            }
+                        },
+                        'yaxis': {
+                            'title':{
+                                'text':"Temperature in °C"
+                            },
+                            'tickfont' : {
+                                'color': 'grey'
+                            }
                         }
                     }
-            }),
+                }
+            )
         width = 4),
         dbc.Col(
             dash_table.DataTable(
