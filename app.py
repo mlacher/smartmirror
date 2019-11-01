@@ -10,6 +10,7 @@ import dash_bootstrap_components as dbc
 import news as ns
 import nfl
 from dash.dependencies import Input, Output
+import plotly.express as px
 
 #get temp values
 temp_fc = w.fore_cast()
@@ -96,29 +97,20 @@ app.layout = html.Div([
         dbc.Col(
             dcc.Graph(
             #className="graphs-container",
-            figure={
+            figure=[
                 
-                'data': [
-                    {'x': temp_fc[2][0:6].index, 'y': temp_fc[2][0:6].values, 'type': 'bar', 'name': 'Temp_max'}
-                ],
-                'layout': {
-                    'plot_bgcolor': colors['background'],
-                    'paper_bgcolor': colors['background'],
-                    'coloraxis':{
-                        'colorbar': -90,
-                    },
-                    'font': {
-                        'color': colors['text'],
-                        'size': 10,
-                        }
-                    }
-            }),
+                
+                 px.area(temp_fc[temp_fc['cat']=='temp'], x="datetime", y="temp"),
+                
+            ]  
+                   
+            ),
         width = 4),
         dbc.Col(
             dash_table.DataTable(
             id='table',
-            columns=[{"name": i, "id": i} for i in nfl_s],
-            data=nfl_s.to_dict('records'),
+            columns=[{"name": i, "id": i} for i in nfl_s[1]],
+            data=nfl_s[1].to_dict('records'),
             style_table= {'width':1,
                           'height':10},
             style_cell= {'width':1,
