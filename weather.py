@@ -38,22 +38,13 @@ def current_weather():
     curr_wind=w.get_wind()                  # {'speed': 4.6, 'deg': 330}
     curr_hum= w.get_humidity()              # 87
     curr_temp= w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
-    curr_w = [curr_temp, curr_wind, curr_hum]
+    curr_rain = w.get_rain()
+    curr_cloud = w.get_clouds()
+    curr_snow = w.get_snow()
+    curr_w = [curr_temp, curr_wind, curr_hum, curr_rain,curr_cloud, curr_snow]
     return  curr_w
  
 
-#to delete
-#tips = fore_cast()
-#fig = px.area(tips[tips['cat']=='temp'], x="datetime", y="temp")
-#fig.update_layout(
-#    title = '5 Day Weather',
-#    xaxis_tickformat = '%d %B (%a)<br>%Y %H:%M',
-#    template= "plotly_dark"
-#)
-#fig.update_xaxes(
-#    showgrid = True,
-#    nticks = 5
-#
-#)
+
 
 #fig.show()

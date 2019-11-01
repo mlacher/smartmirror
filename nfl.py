@@ -14,4 +14,4 @@ def nfl_stats():
     dfs = np.split(df, [16], axis=0)
     return(dfs)
 
-nfl_stats()
+
