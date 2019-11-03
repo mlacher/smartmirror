@@ -183,11 +183,10 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #08080a;
+  background-color: #0a0808;
 }
 
 #root {
-  background-color: #491d1d;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -223,7 +222,7 @@ body {
   font-weight: 400;
   font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial,
     sans-serif;
-  color: rgb(228, 227, 227);
+  color: rgb(122, 163, 252);
 }
 
 /* Typography
@@ -381,7 +380,7 @@ textarea,
 select {
   height: 38px;
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
-  background-color: #fff;
+  background-color: #0a0808;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
   box-shadow: none;
@@ -471,7 +470,7 @@ th,
 td {
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #e1e1e1;
+  border-bottom: 1px solid #0a0808;
 }
 th:first-child,
 td:first-child {

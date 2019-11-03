@@ -39,6 +39,8 @@ def current_weather():
     curr_hum= w.get_humidity()              # 87
     curr_temp= w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
     curr_rain = w.get_rain()
+    if (not curr_rain):
+        curr_rain = 0
     curr_cloud = w.get_clouds()
     curr_snow = w.get_snow()
     curr_w = [curr_temp, curr_wind, curr_hum, curr_rain,curr_cloud, curr_snow]

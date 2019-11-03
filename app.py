@@ -25,9 +25,104 @@ app = dash.Dash(
 )
 server = app.server
 colors = {
-    'background': '#0a0808',
+    #'background': '#0a0808',
     'text': '#d1d2d6'
 }
+#-------------------------------------------------------------------------#
+#---------------------START of WIDGETS------------------------------------#
+#-------------------------------------------------------------------------#
+
+#Widget Temperature
+card = dbc.Card(
+    [
+        dbc.CardImg(src="/assets/images/test.jpg", top=True),
+        dbc.CardBody(
+            [
+                html.P(
+                    'Temp.:'+str(temp_c[0]['temp'])+' °C'+ '\n '+
+                    'Rain.:'+str(temp_c[3])+' %',
+                    className="card-text",
+                )
+            ]
+        ),
+    ],
+    style={
+        "width": "20rem",
+        "backgroundColor": "#0a0808"
+    },
+)  
+
+#Widget Time
+Time_LED = daq.LEDDisplay(
+    id="operator-led",
+    value='12:34',
+    #color="#92e0d3",
+    backgroundColor="#0a0808",
+    size=50
+)
+
+#Widget News
+News = dbc.Toast(
+    [html.P(str(news[0]['title']+ news[1]['title'] + '\n '+ news[2]['title']), className="mb-0")],
+    header="Spiegel News",
+    style={'width': '100%',
+            'color': '#7FDBFF',
+            'backgroundColor':'white',
+            'font-size':'14px'}
+)
+
+#Widget Temp_Graph
+Temp_Graph = dcc.Graph(
+    figure={
+        'data': [{
+            'x': temp_fc['datetime'],
+            'y': temp_fc['temp'],
+            'type': 'scatter',
+            'fill': 'tonexty'
+        }],
+        'layout': {
+            'plot_bgcolor':'#0a0808',
+            'paper_bgcolor':'#0a0808',
+            'xaxis': {
+                'nticks': 5,
+                'tickformat': '     (%a)',
+                #'gridcolor': 'darkgrey',
+                'gridwidth': 0.1,
+                'showticklabes': False,
+                'tickfont' :{
+                    'color': 'grey'
+                }
+            },
+            'yaxis': {
+                'title':{
+                    'text':"Temperature in °C"
+                },
+                'tickfont' : {
+                    'color': 'grey'
+                }
+            }
+        }
+    }
+)
+
+#Widget NFL_Stats
+NFL_Stats = dash_table.DataTable(
+    id='table',
+    columns=[{"name": i, "id": i} for i in nfl_s[0]],
+    data=nfl_s[0].to_dict('records'),
+    style_table= {'width':1,
+                    'height':10},
+    style_cell= {'width':1,
+                'height':10,
+                'backgroundColor': '#0a0808',
+                'color': 'white'},
+    style_as_list_view=True,
+    style_header={'backgroundColor': '#0a0808'}
+)
+
+#-----------------------------------------------------------------------------#
+#------------------------------------app--------------------------------------#
+#-----------------------------------------------------------------------------#
 
 
 app.layout = html.Div([
@@ -35,54 +130,29 @@ app.layout = html.Div([
     dbc.Row([
         dbc.Col(
             html.Div(
-                daq.LEDDisplay(
-                    id="operator-led",
-                    value='12:34',
-                    #color="#92e0d3",
-                    backgroundColor="#0a0808",
-                    size=50
-                ),
+            Time_LED
             ),        
-            width = {"size": 6, "offset": 5},
+            width = {"size": 6, "offset": 3},
+            style={'text-align': 'center'}
         ),
     ]),
     #2nd ROW
     dbc.Row([
         dbc.Col(
             html.Div(id='date'),
-            width={"size": 6, "offset": 5},
+            width={"size": 2, "offset": 5},
+            style={'text-align': 'center'}
+            #style={'backgroundColor':'white'}
         ),
     ]),
     #3rd ROW
     dbc.Row([
         dbc.Col(
-            daq.Thermometer(
-            id='thermometer',
-            value=(temp_c[0]['temp']) ,
-            min=0,
-            max=40,
-            color='#491d1d'
-            ) , 
-        width={'size':1, "offset":1},
+            card,
+        width={'size':3,'offset':1},
         ),
         dbc.Col(
-            daq.Thermometer(
-            id='thermometer2',
-            value=98.6,
-            min=95,
-            max=105
-            ) , 
-        width={'size':1},
-        ),
-        dbc.Col(
-            dbc.Toast(
-                [html.P(str(news[0]['title']+ news[1]['title'] + '\n'+ news[2]['title']), className="mb-0")],
-                header="Spiegel News",
-                style={'width': '100%',
-                        'color': '#7FDBFF',
-                         'backgroundColor':'white',
-                         'font-size':'14px'}
-            ),
+            News,        
         width={'size':4, 'offset':4},
         ),
     ]),
@@ -92,60 +162,19 @@ app.layout = html.Div([
                 n_intervals=0
             ),
     #4th ROW
-    
+
     dbc.Row([
         dbc.Col(
-             dcc.Graph(
-                figure={
-                    'data': [{
-                        'x': temp_fc['datetime'],
-                        'y': temp_fc['temp'],
-                        'type': 'scatter',
-                        'fill': 'tonexty'
-                    }],
-                    'layout': {
-                        'plot_bgcolor':'#0a0808',
-                        'paper_bgcolor':'#0a0808',
-                        'xaxis': {
-                            'nticks': 5,
-                            'tickformat': '     (%a)',
-                            #'gridcolor': 'darkgrey',
-                            'gridwidth': 0.1,
-                            'showticklabes': False,
-                            'tickfont' :{
-                                'color': 'grey'
-                            }
-                        },
-                        'yaxis': {
-                            'title':{
-                                'text':"Temperature in °C"
-                            },
-                            'tickfont' : {
-                                'color': 'grey'
-                            }
-                        }
-                    }
-                }
-            ),
+            Temp_Graph,    
         width = 4),
         dbc.Col(
-            dash_table.DataTable(
-            id='table',
-            columns=[{"name": i, "id": i} for i in nfl_s[0]],
-            data=nfl_s[0].to_dict('records'),
-            style_table= {'width':1,
-                          'height':10},
-            style_cell= {'width':1,
-                        'height':10,
-                        'backgroundColor': 'rgb(50, 50, 50)',
-                        'color': 'white'},
-            style_as_list_view=True,
-            style_header={'backgroundColor': 'rgb(30, 30, 30)'}),
-        width={'size':4, 'offset':3},
+            NFL_Stats,
+        width={'size':2, 'offset':5},
+        #style={'backgroundColor':'white'}
         )     
     ]),
 ])
-    
+
 
 
 
