@@ -11,6 +11,7 @@ import news as ns
 import nfl
 from dash.dependencies import Input, Output
 import plotly.express as px
+import plotly.graph_objects as go
 
 #get temp values
 temp_fc = w.fore_cast()
@@ -26,11 +27,27 @@ app = dash.Dash(
 server = app.server
 colors = {
     #'background': '#0a0808',
-    'text': '#d1d2d6'
+    'text': '#33c3f0'
 }
 #-------------------------------------------------------------------------#
 #---------------------START of WIDGETS------------------------------------#
 #-------------------------------------------------------------------------#
+
+
+fig = go.Figure(go.Scattermapbox(
+    fill = "toself", 
+    lon = [-74, -70, -70, -74], lat = [47, 47, 45, 45],
+    marker = { 'size': 10, 'color': "orange" }))
+
+fig.update_layout(
+    mapbox = {
+        'style': "stamen-terrain", 
+        'center': {'lon': -73, 'lat': 46 }, 
+        'zoom': 5}, 
+    showlegend = False)
+
+
+
 
 #Widget Temperature
 card = dbc.Card(
@@ -39,7 +56,7 @@ card = dbc.Card(
         dbc.CardBody(
             [
                 html.P(
-                    'Temp.:'+str(temp_c[0]['temp'])+' °C'+ '\n '+
+                    'Temp.:'+str(temp_c[0]['temp'])+' °C \n '+
                     'Rain.:'+str(temp_c[3])+' %',
                     className="card-text",
                 )
@@ -67,7 +84,7 @@ News = dbc.Toast(
     header="Spiegel News",
     style={'width': '100%',
             'color': '#7FDBFF',
-            'backgroundColor':'white',
+            'backgroundColor':'#0a0808',
             'font-size':'14px'}
 )
 
@@ -115,7 +132,7 @@ NFL_Stats = dash_table.DataTable(
     style_cell= {'width':1,
                 'height':10,
                 'backgroundColor': '#0a0808',
-                'color': 'white'},
+                'color': '#33c3f0'},
     style_as_list_view=True,
     style_header={'backgroundColor': '#0a0808'}
 )

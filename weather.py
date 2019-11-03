@@ -41,6 +41,8 @@ def current_weather():
     curr_rain = w.get_rain()
     if (not curr_rain):
         curr_rain = 0
+    
+
     curr_cloud = w.get_clouds()
     curr_snow = w.get_snow()
     curr_w = [curr_temp, curr_wind, curr_hum, curr_rain,curr_cloud, curr_snow]
