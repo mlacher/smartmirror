@@ -298,7 +298,7 @@
     }
 
     #graphs-container .graph-wrapper {
-        flex: 1 50%;
+        flex: 1 80%;
     }
 
     #graph-line-roc-curve, #graph-pie-confusion-matrix {
@@ -323,7 +323,7 @@
     }
 
     #graphs-container {
-        flex: 1 33%;
+        flex: 1 66%;
         margin-top: 0.5rem;
     }
 }
