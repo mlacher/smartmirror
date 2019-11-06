@@ -183,7 +183,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #0a0808;
+  background-color: #000000;
 }
 
 #root {
@@ -380,8 +380,8 @@ textarea,
 select {
   height: 38px;
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
-  background-color: #0a0808;
-  border: 1px solid #d1d1d1;
+  background-color: #000000;
+  border: 1px solid #000000;
   border-radius: 4px;
   box-shadow: none;
   box-sizing: border-box;
@@ -470,7 +470,7 @@ th,
 td {
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #0a0808;
+  border-bottom: 1px solid #000000;
 }
 th:first-child,
 td:first-child {
@@ -529,7 +529,7 @@ hr {
   margin-top: 3rem;
   margin-bottom: 3.5rem;
   border-width: 0;
-  border-top: 1px solid #080505;
+  border-top: 1px solid #000000;
 }
 
 /* Clearing
