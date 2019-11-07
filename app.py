@@ -21,6 +21,11 @@ news = ns.spiegel_news()
 #get nfl
 nfl_s = nfl.nfl_stats()
 
+#get mapbox
+mapbox_access_token = "pk.eyJ1IjoibXgtbGNociIsImEiOiJjazJwMnBwOHoxMm1iM21uempkbWUxMmRvIn0._5SM_JZ4YO46nEg-F6-psA"
+mapbox_style = "mapbox://styles/mx-lchr/ck2p4pjk91b8f1cnytdrmy5gh/draft"
+
+
 app = dash.Dash(
     __name__, external_stylesheets=[dbc.themes.BOOTSTRAP]
 )
@@ -34,17 +39,36 @@ colors = {
 #-------------------------------------------------------------------------#
 
 
-fig = go.Figure(go.Scattermapbox(
-    fill = "toself", 
-    lon = [-74, -70, -70, -74], lat = [47, 47, 45, 45],
-    marker = { 'size': 10, 'color': "orange" }))
-
-fig.update_layout(
-    mapbox = {
-        'style': "stamen-terrain", 
-        'center': {'lon': -73, 'lat': 46 }, 
-        'zoom': 5}, 
-    showlegend = False)
+maps=dcc.Graph(
+    id="county-choropleth",
+    figure=dict(
+        data=[
+            dict(
+                lat=48,
+                lon=11,
+                text="d",
+                type="scattermapbox",
+            )
+        ],
+        layout=dict(
+            mapbox=dict(
+                layers=[],
+                accesstoken=mapbox_access_token,
+                style=mapbox_style,
+                center=dict(
+                    lat=48.1782219, lon=11.2781526
+                ),
+                pitch=0,
+                zoom=8.5,
+            ),
+            margin=dict(r=0, l=0, t=0, b=0),
+            autosize=True,
+        ),
+       ),
+    style={
+        "backgroundColor": "#000000"
+    },
+)
 
 
 
@@ -65,7 +89,7 @@ card = dbc.Card(
     ],
     style={
         "width": "20rem",
-        "backgroundColor": "#0a0808"
+        "backgroundColor": "#000000"
     },
 )  
 
@@ -84,7 +108,7 @@ News = dbc.Toast(
     header="Spiegel News",
     style={'width': '100%',
             'color': '#7FDBFF',
-            'backgroundColor':'#0a0808',
+            'backgroundColor':'#000000',
             'font-size':'14px'}
 )
 
@@ -98,8 +122,8 @@ Temp_Graph = dcc.Graph(
             'fill': 'tonexty'
         }],
         'layout': {
-            'plot_bgcolor':'#0a0808',
-            'paper_bgcolor':'#0a0808',
+            'plot_bgcolor':'#000000',
+            'paper_bgcolor':'#000000',
             'xaxis': {
                 'nticks': 5,
                 'tickformat': '     (%a)',
@@ -131,10 +155,10 @@ NFL_Stats = dash_table.DataTable(
                     'height':10},
     style_cell= {'width':1,
                 'height':10,
-                'backgroundColor': '#0a0808',
+                'backgroundColor': '#000000',
                 'color': '#33c3f0'},
     style_as_list_view=True,
-    style_header={'backgroundColor': '#0a0808'}
+    style_header={'backgroundColor': '#000000'}
 )
 
 #-----------------------------------------------------------------------------#
@@ -170,7 +194,7 @@ app.layout = html.Div([
         ),
         dbc.Col(
             News,        
-        width={'size':4, 'offset':4},
+        width={'size':4, 'offset':3},
         ),
     ]),
     dcc.Interval(
@@ -182,14 +206,26 @@ app.layout = html.Div([
 
     dbc.Row([
         dbc.Col(
-            Temp_Graph,    
+            Temp_Graph,   
         width = 4),
+
         dbc.Col(
             NFL_Stats,
-        width={'size':2, 'offset':5},
+        width={'size':2, 'offset':4},
         #style={'backgroundColor':'white'}
         )     
     ]),
+
+    #5th Row
+    
+    dbc.Row([
+        dbc.Col(
+            maps,
+            width={'size':5},
+            #style={'backgroundColor':'white'}
+        ),
+
+    ])
 ])
 
 
