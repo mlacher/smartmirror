@@ -1,4 +1,6 @@
 import numpy as np
+import pyowm
+import pandas as pd
 from datetime import datetime
 import plotly.express as px
 import sys
@@ -43,6 +45,6 @@ def current_weather():
     #curr_snow = w.get_snow()
     #curr_state = w.get_status()
     curr_ico_state = w.get_weather_icon_name() 
-    print(curr_ico_state)     
+    #print(curr_ico_state)     
     curr_w = [curr_temp, curr_wind, curr_hum, curr_ico_state]
     return  curr_w

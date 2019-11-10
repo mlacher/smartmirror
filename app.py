@@ -8,7 +8,7 @@ import dash_daq as daq
 import weather as w
 import dash_bootstrap_components as dbc
 import news as ns
-import nfl
+#import nfl
 from dash.dependencies import Input, Output
 import plotly.express as px
 import plotly.graph_objects as go
@@ -19,7 +19,7 @@ temp_c = w.current_weather()
 #get news
 news = ns.spiegel_news()
 #get nfl
-nfl_s = nfl.nfl_stats()
+#nfl_s = nfl.nfl_stats()
 
 #get mapbox
 mapbox_access_token = "pk.eyJ1IjoibXgtbGNociIsImEiOiJjazJwMnBwOHoxMm1iM21uempkbWUxMmRvIn0._5SM_JZ4YO46nEg-F6-psA"
@@ -59,7 +59,7 @@ maps=dcc.Graph(
                     lat=48.1782219, lon=11.2781526
                 ),
                 pitch=0,
-                zoom=8.5,
+                zoom=12,
             ),
             margin=dict(r=0, l=0, t=0, b=0),
             autosize=True,
@@ -72,16 +72,14 @@ maps=dcc.Graph(
 
 
 
-
 #Widget Temperature
 card = dbc.Card(
     [
-        dbc.CardImg(src="/assets/images/test.jpg", top=True),
+        dbc.CardImg(src="/assets/images/"+ str(temp_c[3]) +".png", top=True),
         dbc.CardBody(
             [
                 html.P(
-                    'Temp.:'+str(temp_c[0]['temp'])+' °C \n '+
-                    'Rain.:'+str(temp_c[3])+' %',
+                    'Temp.:'+str(temp_c[0]['temp'])+" °C",
                     className="card-text",
                 )
             ]
@@ -104,9 +102,10 @@ Time_LED = daq.LEDDisplay(
 
 #Widget News
 News = dbc.Toast(
-    [html.P(str(news[0]['title']+ news[1]['title'] + '\n '+ news[2]['title']), className="mb-0")],
+    [html.P(str(news[0]['title']), className="mb-0"),
+    html.P(str(news[1]['title']), className="mb-0")],
     header="Spiegel News",
-    style={'width': '100%',
+    style={'width': '50%',
             'color': '#7FDBFF',
             'backgroundColor':'#000000',
             'font-size':'14px'}
@@ -146,6 +145,7 @@ Temp_Graph = dcc.Graph(
     }
 )
 
+'''
 #Widget NFL_Stats
 NFL_Stats = dash_table.DataTable(
     id='table',
@@ -160,13 +160,14 @@ NFL_Stats = dash_table.DataTable(
     style_as_list_view=True,
     style_header={'backgroundColor': '#000000'}
 )
+'''
 
 #-----------------------------------------------------------------------------#
 #------------------------------------app--------------------------------------#
 #-----------------------------------------------------------------------------#
 
 
-app.layout = html.Div([
+app.layout = dbc.Container([
     #1st ROW
     dbc.Row([
         dbc.Col(
@@ -194,9 +195,10 @@ app.layout = html.Div([
         ),
         dbc.Col(
             News,        
-        width={'size':4, 'offset':3},
+        width={'size':4, 'offset':4},
         ),
     ]),
+    dbc.Row(),
     dcc.Interval(
                 id='interval-component',
                 interval=1*1000, # in milliseconds
@@ -210,8 +212,8 @@ app.layout = html.Div([
         width = 4),
 
         dbc.Col(
-            NFL_Stats,
-        width={'size':2, 'offset':4},
+            maps,
+        width={'size':3, 'offset':3},
         #style={'backgroundColor':'white'}
         )     
     ]),
@@ -220,13 +222,13 @@ app.layout = html.Div([
     
     dbc.Row([
         dbc.Col(
-            maps,
+           # maps,
             width={'size':5},
             #style={'backgroundColor':'white'}
         ),
 
     ])
-])
+], fluid=True)
 
 
 
@@ -250,4 +252,4 @@ def update_time(n):
     ]
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True,dev_tools_ui=False,dev_tools_props_check=False)
