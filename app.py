@@ -12,7 +12,7 @@ import news as ns
 from dash.dependencies import Input, Output
 import plotly.express as px
 import plotly.graph_objects as go
-
+import calendar
 #get temp values
 temp_fc = w.fore_cast()
 temp_c = w.current_weather()
@@ -37,6 +37,97 @@ colors = {
 #-------------------------------------------------------------------------#
 #---------------------START of WIDGETS------------------------------------#
 #-------------------------------------------------------------------------#
+
+#Widget Calendar
+
+i = 0
+date = []
+active = []
+x = 0
+str_year = dt.datetime.now().strftime('%B')
+year = (int) (dt.datetime.now().strftime('%Y'))
+month = (int) (dt.datetime.now().strftime('%m'))
+day = (int) (dt.datetime.now().strftime('%d'))
+mo_ra =(calendar.monthrange(year,month))
+
+
+while i<42:  
+    a = 'n'
+    if (i == (day+mo_ra[0]-1)):
+        a = 'a'
+    if ((i < mo_ra[0]) or ((i-mo_ra[0])>=mo_ra[1])):
+        x = ''
+    elif (i==mo_ra[0]):
+        x = 1
+    elif (i>mo_ra[0]):
+        x +=1
+    date.append(x)
+    active.append(a)
+    i+=1
+
+calendar = html.Div([
+    html.Div(className = 'month', children= 
+        html.Ul(children= 
+            html.Li(str_year))),
+    html.Div(className = 'weekdays', children= 
+        html.Ul(children= [
+            html.Li('M'),
+            html.Li('D'),
+            html.Li('M'),
+            html.Li('D'),
+            html.Li('F'),
+            html.Li('S'),
+            html.Li('S')])),
+    html.Div(className = 'days', children= 
+        html.Ul(children= [
+            html.Li(children= html.Span(str(date[0]),className= str(active[0]))),
+            html.Li(children= html.Span(str(date[1]),className= str(active[1]))),
+            html.Li(children= html.Span(str(date[2]),className= str(active[2]))),
+            html.Li(children= html.Span(str(date[3]),className= str(active[3]))),
+            html.Li(children= html.Span(str(date[4]),className= str(active[4]))),
+            html.Li(children= html.Span(str(date[5]),className= str(active[5]))),
+            html.Li(children= html.Span(str(date[6]),className= str(active[6]))),
+            html.Li(children= html.Span(str(date[7]),className= str(active[7]))),
+            html.Li(children= html.Span(str(date[8]),className= str(active[8]))),
+            html.Li(children= html.Span(str(date[9]),className= str(active[9]))),
+            html.Li(children= html.Span(str(date[10]),className= str(active[10]))),
+            html.Li(children= html.Span(str(date[11]),className= str(active[11]))),
+            html.Li(children= html.Span(str(date[12]),className= str(active[12]))),
+            html.Li(children= html.Span(str(date[13]),className= str(active[13]))),
+            html.Li(children= html.Span(str(date[14]),className= str(active[14]))),
+            html.Li(children= html.Span(str(date[15]),className= str(active[15]))),
+            html.Li(children= html.Span(str(date[16]),className= str(active[16]))),
+            html.Li(children= html.Span(str(date[17]),className= str(active[17]))),
+            html.Li(children= html.Span(str(date[18]),className= str(active[18]))),
+            html.Li(children= html.Span(str(date[19]),className= str(active[19]))),
+            html.Li(children= html.Span(str(date[20]),className= str(active[20]))),
+            html.Li(children= html.Span(str(date[21]),className= str(active[21]))),
+            html.Li(children= html.Span(str(date[22]),className= str(active[22]))),
+            html.Li(children= html.Span(str(date[23]),className= str(active[23]))),
+            html.Li(children= html.Span(str(date[24]),className= str(active[24]))),
+            html.Li(children= html.Span(str(date[25]),className= str(active[25]))),
+            html.Li(children= html.Span(str(date[26]),className= str(active[26]))),
+            html.Li(children= html.Span(str(date[27]),className= str(active[27]))),
+            html.Li(children= html.Span(str(date[28]),className= str(active[28]))),
+            html.Li(children= html.Span(str(date[29]),className= str(active[29]))),
+            html.Li(children= html.Span(str(date[30]),className= str(active[30]))),
+            html.Li(children= html.Span(str(date[31]),className= str(active[31]))),
+            html.Li(children= html.Span(str(date[32]),className= str(active[32]))),
+            html.Li(children= html.Span(str(date[33]),className= str(active[33]))),
+            html.Li(children= html.Span(str(date[34]),className= str(active[34]))),
+            html.Li(children= html.Span(str(date[35]),className= str(active[35]))),
+            html.Li(children= html.Span(str(date[36]),className= str(active[36]))),
+            html.Li(children= html.Span(str(date[37]),className= str(active[37]))),
+            html.Li(children= html.Span(str(date[38]),className= str(active[38]))),
+            html.Li(children= html.Span(str(date[39]),className= str(active[39]))),
+            html.Li(children= html.Span(str(date[40]),className= str(active[40]))),
+            html.Li(children= html.Span(str(date[41]),className= str(active[41])))
+           ])),
+    html.Div('Notes:',className= 'actions', style = {'color':'red', 'font-size':'14px'})
+])
+
+
+
 
 #widget Maps
 maps=dcc.Graph(
@@ -74,17 +165,16 @@ maps=dcc.Graph(
 
 #Widget Temperature
 card = dbc.Card(
-    [
-        dbc.CardImg(src="/assets/images/"+ str(temp_c[3]) +".png", top=True),
-        dbc.CardBody(
-            [
-                html.P(
-                    'Temp.:'+str(temp_c[0]['temp'])+" °C",
-                    className="card-text",
-                )
-            ]
-        ),
-    ],
+    dbc.ListGroup(
+        [
+            dbc.ListGroupItem(html.Div(id = 'fabrizio'),
+                html.A(href= "http://fabrizio.co"),
+                html.Div(className = 'cloudy'),),
+            dbc.ListGroupItem("Item 2"),
+            dbc.ListGroupItem("Item 3"),
+        ],
+        flush=True,
+    ),
     style={
         "width": "20rem",
         "backgroundColor": "#000000"
@@ -106,7 +196,7 @@ News = dbc.Toast(
     html.P(str(news[1]['title']), className="mb-0")],
     header="Spiegel News",
     style={'width': '100%',
-            'color': '#E4085C',
+            'color': 'white',
             'backgroundColor':'#000000',
             'font-size':'14px'}
 )
@@ -147,22 +237,29 @@ Temp_Graph = dcc.Graph(
     }
 )
 
-'''
-#Widget NFL_Stats
-NFL_Stats = dash_table.DataTable(
-    id='table',
-    columns=[{"name": i, "id": i} for i in nfl_s[0]],
-    data=nfl_s[0].to_dict('records'),
-    style_table= {'width':1,
-                    'height':10},
-    style_cell= {'width':1,
-                'height':10,
-                'backgroundColor': '#000000',
-                'color': '#33c3f0'},
-    style_as_list_view=True,
-    style_header={'backgroundColor': '#000000'}
-)
-'''
+#Widget weather2.0
+w_dic = {
+        '01d':'sunny','01n':'starry',
+        '02d':'cloudy','02n':'starry',
+        '03d':'cloudy','03n':'starry',
+        '04d':'cloudy','04n':'starry',
+        '09d':'rainy','09n':'starry',
+        '10d':'rainy','10n':'starry',
+        '11d':'stormy','11n':'starry',
+        '13d':'snowy','13n':'starry',
+        '50d':'snowy','50n':'starry'
+        }
+weather = html.Div([
+    html.Div(id = 'fabrizio'),
+    html.A(href= "http://fabrizio.co"),
+    html.Div(className = w_dic[temp_c[3]]),
+    html.Div(   
+        html.P(
+                str(temp_c[0]['temp'])+" °C",
+                style = {'color':'white','font-size':'18px'}
+        )
+    )
+])
 
 #-----------------------------------------------------------------------------#
 #------------------------------------app--------------------------------------#
@@ -181,24 +278,18 @@ app.layout = dbc.Container([
         ),
     ]),
     #2nd ROW
+    
     dbc.Row([
-        dbc.Col(
-            html.Div(id='date'),
-            width={"size": 2, "offset": 5},
-            style={'text-align': 'center',
-                'color':'#E4085C'}
-            #style={'backgroundColor':'white'}
-        ),
     ]),
     #3rd ROW
     dbc.Row([
         dbc.Col(
-            card,
+        weather,
         width={'size':3},
         ),
         dbc.Col(
-            News,        
-        width={'size':2, 'offset':6},
+            calendar,      
+        width={'size':3, 'offset':6},
         #style={'backgroundColor':'white'}
         ),
     ]),
@@ -216,8 +307,10 @@ app.layout = dbc.Container([
         width = 4),
 
         dbc.Col(
-            maps,
+            #maps,
+            News,  
         width={'size':3, 'offset':5},
+        align="center"
         #style={'backgroundColor':'white'}
         )     
     ]),
@@ -226,7 +319,7 @@ app.layout = dbc.Container([
     
     dbc.Row([
         dbc.Col(
-           # maps,
+            #News, 
             width={'size':5},
             #style={'backgroundColor':'white'}
         ),
@@ -245,15 +338,6 @@ def update_LED(n):
         str(time)
     ]
 
-
-@app.callback(Output('date', 'children'),
-              [Input('interval-component', 'n_intervals')])
-def update_time(n):
-    time = dt.datetime.now().strftime('%Y-%m-%d')
-    style = {'padding': '8px', 'fontSize': '24px'}
-    return [
-        html.Span(time, style=style)
-    ]
 
 if __name__ == '__main__':
     app.run_server(debug=True,dev_tools_ui=False,dev_tools_props_check=False)
