@@ -280,15 +280,17 @@ app.layout = dbc.Container([
     #2nd ROW
     
     dbc.Row([
+        html.P()
     ]),
+
     #3rd ROW
     dbc.Row([
         dbc.Col(
-        weather,
+            calendar,
         width={'size':3},
         ),
         dbc.Col(
-            calendar,      
+            weather,      
         width={'size':3, 'offset':6},
         #style={'backgroundColor':'white'}
         ),
